@@ -64,3 +64,4 @@ $LBURI = (($catalog.access.serviceCatalog | ? name -like "CloudServersO*").endpo
 
 $nodes = ""
 
+aeg
