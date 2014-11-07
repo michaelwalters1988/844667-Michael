@@ -74,3 +74,6 @@ foreach ($server in $serverlist)
 
 
     }
+    $imgs = (($catalog.access.serviceCatalog | where name -like "*ServersO*").endpoints | Where region -like "HKG" ).publicURL + "/images/detail"
+    $img = (irm -uri $imgs -headers $authToken -Method get -ContentType application/json) 
+    $img.images.status 
