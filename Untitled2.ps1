@@ -47,7 +47,7 @@ $newserver = irm -Uri $CSURI -Headers $authToken -method POST -Body $body -Conte
 #Building
 
 $building = (irm -Uri $CSDURI -Headers $authToken -method get).servers | ? name -like '*mswtest*' 
-while ($building.servers.status -ne 'ACTIVE' )
+while ($building.status -ne 'ACTIVE' )
     {
     write-host Building Server
     sleep 20
