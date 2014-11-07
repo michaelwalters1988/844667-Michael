@@ -76,4 +76,27 @@ foreach ($server in $serverlist)
     }
     $imgs = (($catalog.access.serviceCatalog | where name -like "*ServersO*").endpoints | Where region -like "HKG" ).publicURL + "/images/detail"
     $img = (irm -uri $imgs -headers $authToken -Method get -ContentType application/json) 
-    $img.images.status 
+    ($Img.images | ? name -like "*test*").status
+
+
+# Delete everything
+
+
+ $ImgIDs = ($Img.images | ? name -like "*test*").id
+
+ foreach ($ImgID in $ImgIDs)
+    {
+    $DelImgUri = (($catalog.access.serviceCatalog | where name -like "*ServersO*").endpoints | Where region -like "HKG" ).publicURL + "/images/" + $ImgID
+    irm -uri $DelImgUri -headers $authToken -Method DELETE -ContentType application/json
+    write-host Deleted $ImgID
+    }
+
+$Serverlist = ((irm -uri $Sduri -Method get -Headers $authToken -ContentType application/json).servers | Where name -like "msw-test" )
+
+foreach ($server in $serverlist) 
+    {
+    $serverid = $server.id
+    $SID = (($catalog.access.serviceCatalog | where name -like "*ServersO*").endpoints | Where region -like "HKG" ).publicURL + "/servers/$serverid"
+    irm -uri $SID -headers $authToken -Method DELETE -ContentType application/json 
+    }
+
